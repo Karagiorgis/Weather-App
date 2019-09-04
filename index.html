@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/weather-icons-master/css/weather-icons.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <div class="image">
+
+      <div class="main-content">
+
+        <div class="show-div" v-if="page == 'home'">
+          <div class="header">
+            <div class="main-logo">
+              <img src="images/logo.png" class="logo">
+              <h1>My Weather App</h1>
+            </div>
+            <p class="search-msg">Please search for a city!</p>
+            <p id="err"></p>
+            <div class="search-box">
+              <img id="sbtn" v-on:click="page = 'weather', searchCity();" class="search-icon" src="images/search.png">
+              <input type="text" id="search" v-on:keyup="searchCity();" placeholder="Search...">
+            </div>
+          </div>
+        </div>
+
+        <div class="myContainer" v-if="page == 'weather'">
+
+          <div class="main-body">
+
+            <img v-on:click="page = 'home'" src="images/back.png" class="go-back">
+
+            <div class="main-weather">
+              <div class="top">
+
+                <div>
+
+                  <div>
+                    <h1><span class="country">{{mainData.country}},</span> {{mainData.city}}</h1>
+                  </div>
+                  <div>
+                    <div class="top-date"><span>{{mainData.date}}</span></div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="bottom">
+
+                <div class="content">
+
+                  <div class="wea-icon"><img class="icon-weather-main" :src="mainData.weather"></div>
+                  <div class="temp"><span>{{mainData.temp}}</span><i class="wi wi-celsius"></i></div>
+                  <div>
+                    <p class="weather-desc">{{mainData.description}}</p>
+                  </div>
+
+                  <div class="bottom-info">
+
+                    <div class="box1">
+
+                      <div><span>Wind: {{mainData.wind}}mph</span></div>
+                      <div>Humidity: <i class="wi wi-humidity"></i><span>{{mainData.humidity}}</span></div>
+
+                    </div>
+
+                    <div class="box2">
+
+                      <div><span>MinTemp: {{mainData.minTemp}}&#8451;</span></div>
+                      <div><span>MaxTemp: {{mainData.maxTemp}}&#8451;</span></div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="allDay">
+
+            <h2>Next 24 hours</h2>
+
+            <div class="next-hours">
+
+              <div class="myContainer">
+                <div class="carousel slide" data-interval="false" id="multi_item">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <div class="row">
+                        <div class="col-sm myRow" v-for="value in slide1">
+                          <div class="inbox1">
+                            <div class="weather-photo"><img class="weather-icon-top" :src="value.icon"></div>
+                            <div class="weather-temp"><span>{{value.temp}}&#8451;</span></div>
+                            <div><span>{{value.time}}</span></div>
+                          </div>
+                          <div class="inbox2">
+                            <div><span>MinTemp: {{value.minTemp}}&#8451;</span></div>
+                            <div><span>MaxTemp: {{value.maxTemp}}&#8451;</span></div>
+                          </div>
+                          <div class="inbox3">
+                            <div><span>Wind: {{value.wind}}mph</span></div>
+                            <div><span><i class="wi wi-humidity"></i>{{value.humidity}}</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="row">
+                        <div class="col-sm myRow" v-for="value in slide2">
+                          <div class="inbox1">
+                            <div class="weather-photo"><img class="weather-icon-top" :src="value.icon"></div>
+                            <div class="weather-temp"><span>{{value.temp}}&#8451;</span></div>
+                            <div><span>{{value.time}}</span></div>
+                          </div>
+                          <div class="inbox2">
+                            <div><span>MinTemp: {{value.minTemp}}&#8451;</span></div>
+                            <div><span>MaxTemp: {{value.maxTemp}}&#8451;</span></div>
+                          </div>
+                          <div class="inbox3">
+                            <div><span>Wind: {{value.wind}}mph</span></div>
+                            <div><span><i class="wi wi-humidity"></i>{{value.humidity}}</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="row">
+                        <div class="col-sm myRow" v-for="value in slide3">
+                          <div class="inbox1">
+                            <div class="weather-photo"><img class="weather-icon-top" :src="value.icon"></div>
+                            <div class="weather-temp"><span>{{value.temp}}&#8451;</span></div>
+                            <div><span>{{value.time}}</span></div>
+                          </div>
+                          <div class="inbox2">
+                            <div><span>MinTemp: {{value.minTemp}}&#8451;</span></div>
+                            <div><span>MaxTemp: {{value.maxTemp}}&#8451;</span></div>
+                          </div>
+                          <div class="inbox3">
+                            <div><span>Wind: {{value.wind}}mph</span></div>
+                            <div><span><i class="wi wi-humidity"></i>{{value.humidity}}</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="carousel-control-prev" href="#multi_item" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#multi_item" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="next-title">
+              <h2>Next 5 days</h2>
+            </div>
+            <div class="next-week">
+
+              <div class="carousel slide" data-interval="false" id="multi_item1">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <div class="row">
+                      <div class="col-sm myRow2" v-for="value in nextDays1">
+                        <div class="outbox1">
+                          <div class="weather-photo2"><img class="weather-icon-bottom" :src="value.weather"></div>
+                          <div class="weather-temp"><span>{{value.avgTemp}}&#8451;</span></div>
+                          <div><span>{{value.day}} {{value.date}}</span></div>
+                        </div>
+                        <div class="outbox2">
+                          <div><span>MinTemp: {{value.avgMinTemp}}&#8451;</span></div>
+                          <div><span>MaxTemp: {{value.avgMaxTemp}}&#8451;</span></div>
+                        </div>
+                        <div class="outbox3">
+                          <div><span>Wind: {{value.avgWind}}mph</span></div>
+                          <div><span><i class="wi wi-humidity"></i>{{value.avgHumidity}}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                      <div class="col-sm myRow2" v-for="value in nextDays2">
+                        <div class="outbox1">
+                          <div class="weather-photo2"><img class="weather-icon-bottom" :src="value.weather"></div>
+                          <div class="weather-temp"><span>{{value.avgTemp}}&#8451;</span></div>
+                          <div><span>{{value.day}} {{value.date}}</span></div>
+                        </div>
+                        <div class="outbox2">
+                          <div><span>MinTemp: {{value.avgMinTemp}}&#8451;</span></div>
+                          <div><span>MaxTemp: {{value.avgMaxTemp}}&#8451;</span></div>
+                        </div>
+                        <div class="outbox3">
+                          <div><span>Wind: {{value.avgWind}}mph</span></div>
+                          <div><span><i class="wi wi-humidity"></i>{{value.avgHumidity}}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#multi_item1" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#multi_item1" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="main.js"></script>
+
+</body></html>
